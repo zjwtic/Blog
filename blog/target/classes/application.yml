@@ -1,0 +1,38 @@
+server:
+  port: 7777
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sg_blog?serverTimezone=UTC
+    username: root
+    password: 1234
+  profiles:
+    active: blog
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 5MB
+  mail:
+    host: smtp.163.com
+    username: rjgxk_blog@163.com
+    password: WCPGMGVKKTJNPFLB
+    protocol: smtp
+
+mybatis-plus:
+  #日志
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      id-type: auto
+      table-prefix: tb_
+aliyun:
+  oss:
+    file:
+      bucketname: kbhyblog #上传空间bucket的名字
+      keyid: LTAI5tBx4qLC5wYCB6rexF5H #你的key  就是AccessKey ID
+      keysecret: WNUcvnIG8qAFUarq5UuSDPozNPQx1W #你的秘钥  就是AccessKey secret
+      endpoint: oss-cn-hongkong.aliyuncs.com  #地域节点
