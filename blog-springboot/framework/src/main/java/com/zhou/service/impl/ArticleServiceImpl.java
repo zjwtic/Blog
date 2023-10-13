@@ -11,6 +11,7 @@ import com.zhou.domain.vo.ArticleDetailVO;
 import com.zhou.domain.vo.PageVO;
 import com.zhou.domain.vo.ShowArticleVO;
 import com.zhou.mapper.ArticleMapper;
+import com.zhou.mapper.CategoryMapper;
 import com.zhou.service.ArticleService;
 import com.zhou.service.CategoryService;
 import com.zhou.utils.BeanCopyUtils;

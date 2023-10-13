@@ -1,2 +1,7 @@
+com\zhou\controller\BlogLoginController.class
+com\zhou\config\SecurityConfig.class
+com\zhou\ZhouApplication.class
+com\zhou\A.class
+com\zhou\controller\ArticleController.class
 com\zhou\controller\CategoryController.class
 com\zhou\controller\LinkController.class

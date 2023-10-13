@@ -6,6 +6,10 @@ spring:
     url: jdbc:mysql://localhost:3306/sg_blog?serverTimezone=UTC
     username: root
     password: 1234
+#    redis:
+#      host: 127.0.0.1
+#      port: 6379
+
   profiles:
     active: blog
   servlet:
