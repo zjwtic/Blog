@@ -36,5 +36,21 @@ public class SystemCanstants {
      * 友链状态为审核通过
      */
     public static final String LINK_STATUS_NORMAL = "0";
+
+    /**
+     * 评论区的某条评论是根评论
+     */
+    public static final String COMMENT_ROOT = "-1";
+
+    /**
+     * 文章的评论
+     */
+    public static final String ARTICLE_COMMENT = "0";
+
+    /**
+     * 友链的评论
+     */
+    public static final String LINK_COMMENT = "1";
+
     
 }

@@ -59,8 +59,10 @@ private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
                 //退出登录的配置。如果'没登录'就调用'退出登录'，就会报错，报的错设置为'401 需要登录后操作'，也就是authenticated
                 .antMatchers("/logout").authenticated()
-                .antMatchers("/link/getAllLink").authenticated()
                 // 除上面外的所有请求全部不需要认证即可访问
+
+                //为方便测试查询个人信息，我们把查询个人信息的接口设置为需要登录才能访问
+                .antMatchers("/user/userInfo").authenticated()
                 .anyRequest().permitAll();
 
         //把我们写的自定义异常处理器配置给Security
