@@ -12,4 +12,8 @@ public interface UserService extends IService<User> {
 
     //个人信息查询
     ResponseResult userInfo();
+
+    ResponseResult updateUserInfo(User user);
+
+    ResponseResult register(User user);
 }

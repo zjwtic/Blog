@@ -1,4 +1,4 @@
-
+package com.zhou;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
@@ -7,7 +7,7 @@ import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ import java.io.InputStream;
  */
 @Component
 @SpringBootTest
-@ConfigurationProperties(prefix = "myoss")//指定读取application.yml文件的myoss属性的数据
+//@ConfigurationProperties(prefix = "myoss")//指定读取application.yml文件的myoss属性的数据
 public class OSSTest {
 
     //注意要从application.yml读取属性数据，下面的3个成员变量的名字必须对应application.yml的myoss属性的三个子属性名字
@@ -60,7 +60,7 @@ public class OSSTest {
             //ByteArrayInputStream byteInputStream=new ByteArrayInputStream(uploadBytes);
 
             //上面两行是官方写的(注释掉)，下面那几行是我们写的
-            InputStream xxinputStream = new FileInputStream("D:\\MyUploadFile\\myhead.jpg");
+            InputStream xxinputStream = new FileInputStream("D:\\桌面\\周俊玮.pdf");
 
             Auth auth = Auth.create(xxaccessKey, xxsecretKey);
             String upToken = auth.uploadToken(xxbucket);

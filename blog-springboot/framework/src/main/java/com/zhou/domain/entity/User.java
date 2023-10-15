@@ -1,6 +1,9 @@
 package com.zhou.domain.entity;
 
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +22,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 public class User  {
 
     //主键@TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     //用户名

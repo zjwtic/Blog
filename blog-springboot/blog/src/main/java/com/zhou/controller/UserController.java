@@ -1,11 +1,10 @@
 package com.zhou.controller;
 
 import com.zhou.domain.ResponseResult;
+import com.zhou.domain.entity.User;
 import com.zhou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author 35238
@@ -22,5 +21,17 @@ public class UserController {
     @GetMapping("/userInfo")
     public ResponseResult userInfo(){
         return userService.userInfo();
+    }
+
+    @PutMapping("userInfo")
+    public ResponseResult  updateUserInfo(@RequestBody User user){
+        //更新个人信息
+        return userService.updateUserInfo(user);
+    }
+
+    @PostMapping("/register")
+    public ResponseResult register(@RequestBody User user){
+        //注册功能
+        return userService.register(user);
     }
 }
