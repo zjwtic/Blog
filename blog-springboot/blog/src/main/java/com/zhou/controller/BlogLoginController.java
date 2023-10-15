@@ -1,5 +1,6 @@
 package com.zhou.controller;
 
+import com.zhou.annotation.mySystemlog;
 import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.User;
 import com.zhou.enums.AppHttpCodeEnum;
@@ -24,6 +25,7 @@ public class BlogLoginController {
 
     @PostMapping("/login")
     //ResponseResult是我们在huanf-framework工程里面写的实体类
+    @mySystemlog(xxbusinessName = "登录")
     public ResponseResult login(@RequestBody User user){
         //如果用户在进行登录时，没有传入'用户名'
         if(!StringUtils.hasText(user.getUserName())){
@@ -33,6 +35,7 @@ public class BlogLoginController {
         return blogLoginService.login(user);
     }
 @PostMapping("/logout")
+@mySystemlog(xxbusinessName = "登出")
     public ResponseResult logout(){
 return blogLoginService.logout();
     }

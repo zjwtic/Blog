@@ -1,6 +1,7 @@
 package com.zhou.controller;
 
 
+import com.zhou.annotation.mySystemlog;
 import com.zhou.constants.SystemCanstants;
 import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Comment;
@@ -21,18 +22,21 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping("commentList")
+    @mySystemlog(xxbusinessName = "查看文章评论信息")
     //ResponseResult是我们在huanf-framework工程写的类
     public ResponseResult commentList(Long articleId, Integer pageNum, Integer pageSize){
         return commentService.commentList(SystemCanstants.ARTICLE_COMMENT,articleId,pageNum,pageSize);
     }
 
     @PostMapping
+    @mySystemlog(xxbusinessName = "增加评论信息")
     //在文章的评论区发送评论。ResponseResult是我们在huanf-framework工程写的类
     public ResponseResult addComment(@RequestBody Comment comment){
         return commentService.addComment(comment);
     }
 
     @GetMapping("/linkCommentList")
+    @mySystemlog(xxbusinessName = "查看友链评论信息")
     //在友链的评论区发送评论。ResponseResult是我们在huanf-framework工程写的类
     public ResponseResult linkCommentList(Integer pageNum,Integer pageSize){
         //commentService是我们刚刚实现文章的评论区发送评论功能时(当时用的是addComment方法，现在用commentList方法)，写的类

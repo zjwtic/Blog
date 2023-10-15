@@ -1,5 +1,6 @@
 package com.zhou.controller;
 
+import com.zhou.annotation.mySystemlog;
 import com.zhou.domain.ResponseResult;
 import com.zhou.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
 @GetMapping("/getCategoryList")
+@mySystemlog(xxbusinessName = "查看分类文章信息")
     public ResponseResult getCategoryList(){
    ResponseResult result=categoryService.getCategoryList();
    return result;
