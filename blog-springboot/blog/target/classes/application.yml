@@ -1,42 +1,90 @@
+#server:
+#  port: 7777
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/sg_blog?serverTimezone=UTC
+#    username: root
+#    password: 1234
+##    redis:
+##      host: 127.0.0.1
+##      port: 6379
+#
+#  profiles:
+#    active: blog
+#  servlet:
+#    multipart:
+#      max-file-size: 2MB
+#      max-request-size: 5MB
+#  mail:
+#    host: smtp.163.com
+#    username: rjgxk_blog@163.com
+#    password: WCPGMGVKKTJNPFLB
+#    protocol: smtp
+#
+#mybatis-plus:
+#  #日志
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  global-config:
+#    db-config:
+#      logic-delete-field: delFlag
+#      logic-delete-value: 1
+#      logic-not-delete-value: 0
+#      id-type: auto
+#      table-prefix: tb_
+##aliyun:
+##  oss:
+##    file:
+##      bucketname: kbhyblog #上传空间bucket的名字
+##      keyid: LTAI5tBx4qLC5wYCB6rexF5H #你的key  就是AccessKey ID
+##      keysecret: WNUcvnIG8qAFUarq5UuSDPozNPQx1W #你的秘钥  就是AccessKey secret
+##      endpoint: oss-cn-hongkong.aliyuncs.com  #地域节点
+## 打开七牛云，找到密钥管理，把相关信息填写到下面3行，会被huanf-blog工程的OOSTest类获取
+#myoss:
+#  xxaccessKey: 9Kem9CdGU0B_iqXj-d9SEe077Gwc05QSTqnTeLTA
+#  xxsecretKey: MWKwNiqMWfIMs0zxKmXwQpIsA0BhRD8cv1BVmgD6
+#  xxbucket: zhou-6log
+
 server:
   port: 7777
+
 spring:
+  # 数据库连接信息
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/sg_blog?serverTimezone=UTC
     username: root
     password: 1234
-#    redis:
-#      host: 127.0.0.1
-#      port: 6379
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
-  profiles:
-    active: blog
   servlet:
+    # 文件上传
     multipart:
-      max-file-size: 2MB
-      max-request-size: 5MB
-  mail:
-    host: smtp.163.com
-    username: rjgxk_blog@163.com
-    password: WCPGMGVKKTJNPFLB
-    protocol: smtp
+      # 单个上传文件的最大允许大小
+      max-file-size: 20MB
+      # HTTP请求中包含的所有文件的总大小的最大允许值
+      max-request-size: 20MB
 
 mybatis-plus:
-  #日志
   configuration:
+    # 日志
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
+      # 逻辑删除的字段
       logic-delete-field: delFlag
+      # 代表已删除的值
       logic-delete-value: 1
+      # 代表未删除的值
       logic-not-delete-value: 0
+      # 主键自增策略，以mysql数据库为准
       id-type: auto
-      table-prefix: tb_
-aliyun:
-  oss:
-    file:
-      bucketname: kbhyblog #上传空间bucket的名字
-      keyid: LTAI5tBx4qLC5wYCB6rexF5H #你的key  就是AccessKey ID
-      keysecret: WNUcvnIG8qAFUarq5UuSDPozNPQx1W #你的秘钥  就是AccessKey secret
-      endpoint: oss-cn-hongkong.aliyuncs.com  #地域节点
+
+# 打开七牛云，找到密钥管理，把相关信息填写到下面3行，会被huanf-blog工程的OOSTest类获取
+myoss:
+  xxaccessKey: 9Kem9CdGU0B_iqXj-d9SEe077Gwc05QSTqnTeLTA
+  xxsecretKey: MWKwNiqMWfIMs0zxKmXwQpIsA0BhRD8cv1BVmgD6
+  xxbucket: zhou-6log
+m:
+  a: 12
+  b: zjw
