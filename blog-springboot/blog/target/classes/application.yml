@@ -56,6 +56,11 @@ spring:
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+  # springboot 2.6版本之后需要配置ant_path_matcher才能生使swagger生成接口文档
+  # 我们目前的springboot版本是2.5.0，不需要配置ant_path_matcher也可正常使用swagger
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
   servlet:
     # 文件上传

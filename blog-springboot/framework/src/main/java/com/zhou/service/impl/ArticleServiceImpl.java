@@ -1,6 +1,7 @@
 package com.zhou.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhou.constants.SystemCanstants;
@@ -11,15 +12,16 @@ import com.zhou.domain.vo.ArticleDetailVO;
 import com.zhou.domain.vo.PageVO;
 import com.zhou.domain.vo.ShowArticleVO;
 import com.zhou.mapper.ArticleMapper;
-import com.zhou.mapper.CategoryMapper;
 import com.zhou.service.ArticleService;
 import com.zhou.service.CategoryService;
 import com.zhou.utils.BeanCopyUtils;
 import com.zhou.domain.vo.HotArticleVO;
+import com.zhou.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -27,8 +29,29 @@ import java.util.stream.Collectors;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
  @Autowired
  private    CategoryService categoryService;
+    @Autowired
+    //操作数据库。ArticleService是我们在huanf-framework工程写的接口
+    private ArticleService articleService;
+ @Autowired
+ private RedisCache redisCache;
     @Override
     public ResponseResult hotArticleList() {
+
+        //-------------------每调用这个方法就从redis查询文章的浏览量，展示在热门文章列表------------------------
+
+        //获取redis中的浏览量，注意得到的viewCountMap是HashMap双列集合
+        Map<String, Integer> viewCountMap = redisCache.getCacheMap("article:viewCount");
+        //让双列集合调用entrySet方法即可转为单列集合，然后才能调用stream方法
+        List<Article> xxarticles = viewCountMap.entrySet()
+                .stream()
+                .map(entry -> new Article(Long.valueOf(entry.getKey()), entry.getValue().longValue()))
+                //把最终数据转为List集合
+                .collect(Collectors.toList());
+        //把获取到的浏览量更新到mysql数据库中。updateBatchById是mybatisplus提供的批量操作数据的接口
+        articleService.updateBatchById(xxarticles);
+//------------------------------------------------------------------------------------------------------
+
+
         LambdaQueryWrapper<Article>queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(Article::getStatus, SystemCanstants.ARTICLE_STATUS_NORMAL);
         queryWrapper.orderByDesc(Article::getViewCount);
@@ -87,8 +110,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public ResponseResult getContentById(Long id) {
+
     // 先通过id 得到  对应的文章内容
         Article article = getById(id);
+
+        //-------------------从redis查询文章的浏览量，展示在文章详情---------------------------
+
+        //从redis查询文章浏览量
+        Integer viewCount = redisCache.getCacheMapValue("article:viewCount", id.toString());
+        article.setViewCount(viewCount.longValue());
+
+        //-----------------------------------------------------------------------------
+
         // vo优化
         ArticleDetailVO articleDetailVO = BeanCopyUtils.copyBean(article, ArticleDetailVO.class);
         //设置里面的 分类名字
@@ -100,5 +133,13 @@ if(category!=null){
 //返回
 return ResponseResult.okResult(articleDetailVO);
 
+    }
+
+    @Override
+    public ResponseResult updateViewCount(Long id) {
+        //更新redis中的浏览量，对应文章id的viewCount浏览量。article:viewCount是ViewCountRunner类里面写的
+        //用户每从mysql根据文章id查询一次浏览量，那么redis的浏览量就增加1
+        redisCache.incrementCacheMapValue("article:viewCount",id.toString(),1);
+        return ResponseResult.okResult();
     }
 }

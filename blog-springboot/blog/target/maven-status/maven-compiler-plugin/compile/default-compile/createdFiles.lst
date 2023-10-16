@@ -1,7 +1,14 @@
 com\zhou\controller\BlogLoginController.class
 com\zhou\config\SecurityConfig.class
+com\zhou\controller\UploadController.class
 com\zhou\ZhouApplication.class
-com\zhou\A.class
+com\zhou\job\UpdateViewCountJob.class
 com\zhou\controller\ArticleController.class
-com\zhou\controller\CategoryController.class
+com\zhou\controller\CommentController.class
 com\zhou\controller\LinkController.class
+com\zhou\config\SwaggerConfig.class
+com\zhou\A.class
+com\zhou\runner\ViewCountRunner.class
+com\zhou\filter\JwtAuthenticationTokenFilter.class
+com\zhou\controller\CategoryController.class
+com\zhou\controller\UserController.class

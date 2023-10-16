@@ -17,7 +17,9 @@ D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\domain\e
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\domain\vo\BlogUserLoginVo.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\mapper\CategoryMapper.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\handler\security\AuthenticationEntryPointImpl.java
+D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\aspect\myLogAspect.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\handler\mybatisplus\MyMetaObjectHandler.java
+D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\service\OssUploadService.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\utils\SecurityUtils.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\mapper\ArticleMapper.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\handler\security\AccessDeniedHandlerImpl.java
@@ -35,9 +37,11 @@ D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\enums\Ap
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\domain\vo\CommentVo.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\utils\WebUtils.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\config\RedisConfig.java
+D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\annotation\mySystemlog.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\domain\ResponseResult.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\service\impl\ArticleServiceImpl.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\config\WebConfig.java
+D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\service\impl\OssUploadServiceImpl.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\domain\vo\HotArticleVO.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\domain\vo\ArticleDetailVO.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\service\BlogLoginService.java
@@ -47,4 +51,5 @@ D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\constant
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\service\impl\CommentServiceImpl.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\service\impl\BlogLoginServiceImpl.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\mapper\CommentMapper.java
+D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\utils\PathUtils.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\domain\vo\ShowArticleVO.java

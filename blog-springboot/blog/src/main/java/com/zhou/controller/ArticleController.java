@@ -5,10 +5,7 @@ import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Article;
 import com.zhou.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,6 +39,12 @@ public class ArticleController {
   public ResponseResult getContentById(@PathVariable("id") Long id){
 
     return  articleService.getContentById(id);
+    }
+
+    @PutMapping("/updateViewCount/{id}")
+    @mySystemlog(xxbusinessName = "浏览量访问")
+    public ResponseResult updateViewCount(@PathVariable("id") Long id){
+    return  articleService.updateViewCount(id);
     }
 
 }
