@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2023/7/30 0030 21:37
  */
 @Component
-@Aspect//告诉spring容器，myLogAspect是切面类
+//@Aspect//告诉spring容器，myLogAspect是切面类  关掉aop  因为mutipartfile  不能 fastjson
 @Slf4j//用于在控制台打印日志信息
 public class myLogAspect {
 

@@ -25,3 +25,8 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
+# 打开七牛云，找到密钥管理，把相关信息填写到下面3行，会被huanf-blog工程的OOSTest类获取
+myoss:
+  xxaccessKey: 9Kem9CdGU0B_iqXj-d9SEe077Gwc05QSTqnTeLTA
+  xxsecretKey: MWKwNiqMWfIMs0zxKmXwQpIsA0BhRD8cv1BVmgD6
+  xxbucket: zhou-6log

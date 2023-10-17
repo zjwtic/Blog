@@ -21,7 +21,7 @@ public class UploadController {
     private OssUploadService ossUploadService;
 
     @PostMapping("/upload")
-    @mySystemlog(xxbusinessName = "头像上传")
+//    @mySystemlog(xxbusinessName = "头像上传")
     //MultipartFile是spring提供的接口，ResponseResult是我们在huanf-framework写的实体类
     public ResponseResult uploadImg(MultipartFile img){
         //图片上传到七牛云

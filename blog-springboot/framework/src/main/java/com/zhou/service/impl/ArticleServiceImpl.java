@@ -8,6 +8,7 @@ import com.zhou.constants.SystemCanstants;
 import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Article;
 import com.zhou.domain.entity.ArticleTag;
+import com.zhou.domain.entity.ArticleVo;
 import com.zhou.domain.entity.Category;
 import com.zhou.domain.vo.ArticleDetailVO;
 import com.zhou.domain.vo.PageVO;
@@ -16,6 +17,7 @@ import com.zhou.dto.AddArticleDto;
 import com.zhou.mapper.ArticleMapper;
 import com.zhou.service.ArticleService;
 import com.zhou.service.ArticleTagService;
+import com.zhou.service.ArticleVoService;
 import com.zhou.service.CategoryService;
 import com.zhou.utils.BeanCopyUtils;
 import com.zhou.domain.vo.HotArticleVO;
@@ -35,6 +37,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     //操作数据库。ArticleService是我们在huanf-framework工程写的接口
     private ArticleService articleService;
+
+    @Autowired
+    private ArticleVoService articleVoService;
 
     @Autowired
     private ArticleTagService articleTagService;
@@ -152,11 +157,11 @@ return ResponseResult.okResult(articleDetailVO);
 
     @Override
     public ResponseResult add(AddArticleDto articleDto) {
-Article article=BeanCopyUtils.copyBean(articleDto,Article.class);
-save(article);
+ArticleVo articlevo=BeanCopyUtils.copyBean(articleDto, ArticleVo.class);
+        articleVoService.save(articlevo);
         List<ArticleTag> articleTags = articleDto.getTags()
                 .stream()
-                .map(tag -> new ArticleTag(article.getId(), tag))
+                .map(tag -> new ArticleTag(articlevo.getId(), tag))
                 .collect(Collectors.toList());
 
         articleTagService.saveBatch(articleTags);

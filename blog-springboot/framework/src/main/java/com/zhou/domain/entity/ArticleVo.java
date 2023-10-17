@@ -1,9 +1,6 @@
 package com.zhou.domain.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.function.Consumer;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -12,22 +9,16 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
-
 /**
- * 文章表(Article)表实体类
- *
- * @author makejava
- * @since 2023-10-02 09:18:20
+ * @author 35238
+ * @date 2023/7/18 0018 21:11
  */
-
-@SuppressWarnings("serial")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @TableName("sg_article")
-public class Article  {
+public class ArticleVo {
+
     @TableId
     private Long id;
     //标题
@@ -38,9 +29,12 @@ public class Article  {
     private String summary;
     //所属分类id
     private Long categoryId;
-    //所属分类name
-    @TableField(exist = false)
+
+    //增加一个字段，为categoryName，由categoryId来查询出
+    //由于数据库没有category_name字段，所以要用注解指定一下字段
+    @TableField(exist = false)//代表这个字段在数据库中不存在，避免MyBatisPlus在查询时报错
     private String categoryName;
+
     //缩略图
     private String thumbnail;
     //是否置顶（0否，1是）
@@ -52,31 +46,21 @@ public class Article  {
     //是否允许评论 1是，0否
     private String isComment;
 
+    //新增博客文章-使用mybatisplus的字段自增
+    @TableField(fill = FieldFill.INSERT)
     private Long createBy;
-
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
-
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateBy;
-
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
-//
-//    //新增博客文章-使用mybatisplus的字段自增    不能这么搞，因为我们之前的5秒一更新 浏览量
-//                                              会每次都加  而未登录时是user为null的
-//    @TableField(fill = FieldFill.INSERT)
-//    private Long createBy;
-//    @TableField(fill = FieldFill.INSERT)
-//    private Date createTime;
-//    @TableField(fill = FieldFill.INSERT_UPDATE)
-//    private Long updateBy;
-//    @TableField(fill = FieldFill.INSERT_UPDATE)
-//    private Date updateTime;
+
     //删除标志（0代表未删除，1代表已删除）
     private Integer delFlag;
-    //把redis的浏览量数据更新到mysql数据库
-    public Article(Long id, long viewCount) {
+
+    public ArticleVo(Long id, long viewCount) {
         this.id = id;
-        this.viewCount=viewCount;
+        this.viewCount = viewCount;
     }
-
 }
-

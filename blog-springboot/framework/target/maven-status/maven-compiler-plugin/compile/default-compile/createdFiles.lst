@@ -51,8 +51,11 @@ com\zhou\service\BlogLoginService.class
 com\zhou\service\impl\RoleServiceImpl.class
 com\zhou\service\impl\ArticleTagServiceImpl.class
 com\zhou\config\FastJsonRedisSerializer.class
+com\zhou\mapper\ArticleVoMapper.class
+com\zhou\service\impl\ArticleVoServiceImpl.class
 com\zhou\domain\ResponseResult.class
 com\zhou\domain\vo\ArticleDetailVO.class
+com\zhou\service\ArticleVoService.class
 com\zhou\domain\vo\HotCategoryVO.class
 com\zhou\service\impl\MenuServiceImpl.class
 com\zhou\domain\entity\Tag.class
@@ -76,6 +79,7 @@ com\zhou\service\MenuService.class
 com\zhou\service\CategoryService.class
 com\zhou\domain\vo\TagVo.class
 com\zhou\mapper\UserMapper.class
+com\zhou\domain\entity\ArticleVo.class
 com\zhou\handler\security\AuthenticationEntryPointImpl.class
 com\zhou\config\MybatisPlusConfig.class
 com\zhou\domain\entity\Comment.class

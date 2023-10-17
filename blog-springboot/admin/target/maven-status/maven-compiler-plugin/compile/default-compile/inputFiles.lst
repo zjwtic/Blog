@@ -2,6 +2,7 @@ D:\桌面\project\Blog\blog-springboot\admin\src\main\java\com\zhou\BlogAdminApp
 D:\桌面\project\Blog\blog-springboot\admin\src\main\java\com\zhou\controller\TagController.java
 D:\桌面\project\Blog\blog-springboot\admin\src\main\java\com\zhou\controller\CategoryController.java
 D:\桌面\project\Blog\blog-springboot\admin\src\main\java\com\zhou\config\SecurityConfig.java
+D:\桌面\project\Blog\blog-springboot\admin\src\main\java\com\zhou\controller\ArticleController.java
 D:\桌面\project\Blog\blog-springboot\admin\src\main\java\com\zhou\fiter\JwtAuthenticationTokenFilter.java
 D:\桌面\project\Blog\blog-springboot\admin\src\main\java\com\zhou\controller\UploadController.java
 D:\桌面\project\Blog\blog-springboot\admin\src\main\java\com\zhou\controller\LoginController.java
