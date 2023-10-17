@@ -1,0 +1,7 @@
+com\zhou\config\SecurityConfig.class
+com\zhou\controller\UploadController.class
+com\zhou\BlogAdminApplication.class
+com\zhou\fiter\JwtAuthenticationTokenFilter.class
+com\zhou\controller\CategoryController.class
+com\zhou\controller\TagController.class
+com\zhou\controller\LoginController.class

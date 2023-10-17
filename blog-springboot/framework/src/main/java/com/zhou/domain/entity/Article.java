@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -50,13 +51,23 @@ public class Article  {
     private Long viewCount;
     //是否允许评论 1是，0否
     private String isComment;
-    
+
+//    private Long createBy;
+//
+//    private Date createTime;
+//
+//    private Long updateBy;
+//
+//    private Date updateTime;
+
+    //新增博客文章-使用mybatisplus的字段自增
+    @TableField(fill = FieldFill.INSERT)
     private Long createBy;
-    
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
-    
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateBy;
-    
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
     //删除标志（0代表未删除，1代表已删除）
     private Integer delFlag;

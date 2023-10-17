@@ -6,6 +6,7 @@ import com.zhou.constants.SystemCanstants;
 import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Article;
 import com.zhou.domain.entity.Category;
+import com.zhou.domain.vo.CategoryVo;
 import com.zhou.mapper.CategoryMapper;
 import com.zhou.service.ArticleService;
 import com.zhou.service.CategoryService;
@@ -47,4 +48,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<HotCategoryVO> hotCategoryVOS = BeanCopyUtils.copyBeanList(categorylist, HotCategoryVO.class);
         return ResponseResult.okResult(hotCategoryVOS);
     }
+
+
+    //----------------------------写博客-查询文章分类的接口--------------------------------------
+
+    @Override
+    public List<CategoryVo> listAllCategory() {
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Category::getStatus, SystemCanstants.NORMAL);
+        List<Category> list = list(wrapper);
+        List<CategoryVo> categoryVos = BeanCopyUtils.copyBeanList(list, CategoryVo.class);
+        return categoryVos;
+    }
+
 }

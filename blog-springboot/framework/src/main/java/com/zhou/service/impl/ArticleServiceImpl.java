@@ -7,12 +7,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhou.constants.SystemCanstants;
 import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Article;
+import com.zhou.domain.entity.ArticleTag;
 import com.zhou.domain.entity.Category;
 import com.zhou.domain.vo.ArticleDetailVO;
 import com.zhou.domain.vo.PageVO;
 import com.zhou.domain.vo.ShowArticleVO;
+import com.zhou.dto.AddArticleDto;
 import com.zhou.mapper.ArticleMapper;
 import com.zhou.service.ArticleService;
+import com.zhou.service.ArticleTagService;
 import com.zhou.service.CategoryService;
 import com.zhou.utils.BeanCopyUtils;
 import com.zhou.domain.vo.HotArticleVO;
@@ -32,6 +35,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     //操作数据库。ArticleService是我们在huanf-framework工程写的接口
     private ArticleService articleService;
+
+    @Autowired
+    private ArticleTagService articleTagService;
+
  @Autowired
  private RedisCache redisCache;
     @Override
@@ -142,4 +149,19 @@ return ResponseResult.okResult(articleDetailVO);
         redisCache.incrementCacheMapValue("article:viewCount",id.toString(),1);
         return ResponseResult.okResult();
     }
+
+    @Override
+    public ResponseResult add(AddArticleDto articleDto) {
+Article article=BeanCopyUtils.copyBean(articleDto,Article.class);
+save(article);
+        List<ArticleTag> articleTags = articleDto.getTags()
+                .stream()
+                .map(tag -> new ArticleTag(article.getId(), tag))
+                .collect(Collectors.toList());
+
+        articleTagService.saveBatch(articleTags);
+        return ResponseResult.okResult();
+    }
+
+
 }
