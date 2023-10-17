@@ -56,6 +56,7 @@ com\zhou\service\impl\ArticleVoServiceImpl.class
 com\zhou\domain\ResponseResult.class
 com\zhou\domain\vo\ArticleDetailVO.class
 com\zhou\service\ArticleVoService.class
+com\zhou\service\PermissionService.class
 com\zhou\domain\vo\HotCategoryVO.class
 com\zhou\service\impl\MenuServiceImpl.class
 com\zhou\domain\entity\Tag.class
@@ -70,6 +71,7 @@ com\zhou\domain\vo\RoutersVo.class
 com\zhou\domain\vo\CommentVo.class
 com\zhou\mapper\ArticleMapper.class
 com\zhou\domain\entity\Role.class
+com\zhou\domain\vo\ExcelCategoryVo.class
 com\zhou\mapper\RoleMapper.class
 com\zhou\handler\mybatisplus\MyMetaObjectHandler.class
 com\zhou\domain\vo\HotArticleVO.class
