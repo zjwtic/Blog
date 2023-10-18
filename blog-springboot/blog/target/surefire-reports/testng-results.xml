@@ -2,10 +2,10 @@
 <testng-results ignored="0" total="0" passed="0" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2023-10-18T21:43:38 CST" name="com.zhou.OSSTest" finished-at="2023-10-18T21:43:38 CST" duration-ms="14">
+  <suite started-at="2023-10-18T22:05:59 CST" name="com.zhou.OSSTest" finished-at="2023-10-18T22:05:59 CST" duration-ms="13">
     <groups>
     </groups>
-    <test started-at="2023-10-18T21:43:38 CST" name="Command line test" finished-at="2023-10-18T21:43:38 CST" duration-ms="14">
+    <test started-at="2023-10-18T22:05:59 CST" name="Command line test" finished-at="2023-10-18T22:05:59 CST" duration-ms="13">
     </test> <!-- Command line test -->
   </suite> <!-- com.zhou.OSSTest -->
 </testng-results>

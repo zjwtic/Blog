@@ -3,6 +3,7 @@ package com.zhou.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Link;
+import com.zhou.domain.vo.PageVO;
 
 
 /**
@@ -14,4 +15,7 @@ import com.zhou.domain.entity.Link;
 public interface LinkService extends IService<Link> {
 
     ResponseResult getAllLink();
+
+    //分页查询友链
+    PageVO selectLinkPage(Link link, Integer pageNum, Integer pageSize);
 }

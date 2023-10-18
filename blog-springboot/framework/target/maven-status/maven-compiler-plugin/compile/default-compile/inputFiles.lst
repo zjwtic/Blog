@@ -47,6 +47,7 @@ D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\config\W
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\service\impl\OssUploadServiceImpl.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\domain\vo\HotArticleVO.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\domain\vo\ArticleDetailVO.java
+D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\dto\CategoryDto.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\dto\ChangeRoleStatusDto.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\domain\vo\ExcelCategoryVo.java
 D:\桌面\project\Blog\blog-springboot\framework\src\main\java\com\zhou\mapper\MenuMapper.java

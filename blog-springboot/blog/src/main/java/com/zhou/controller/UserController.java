@@ -2,6 +2,7 @@ package com.zhou.controller;
 
 import com.zhou.annotation.mySystemlog;
 import com.zhou.domain.ResponseResult;
+import com.zhou.domain.entity.Link;
 import com.zhou.domain.entity.User;
 import com.zhou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +39,5 @@ public class UserController {
         //注册功能
         return userService.register(user);
     }
+
 }

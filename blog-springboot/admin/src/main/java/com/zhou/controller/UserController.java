@@ -69,5 +69,10 @@ return userService.getusersbyid(id);
     }
 
 
-
+    @PutMapping("/changeStatus")
+    //②修改用户状态
+    public ResponseResult changeLinkStatus(@RequestBody User user){
+        userService.updateById(user);
+        return ResponseResult.okResult();
+    }
 }
