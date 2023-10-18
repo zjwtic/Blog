@@ -19,4 +19,6 @@ public interface MenuMapper extends BaseMapper<Menu> {
     List<Menu> selectAllRouterMenu();
     //查询普通用户的路由信息(权限菜单)
     List<Menu> selectOtherRouterMenuTreeByUserId(Long userId);
+
+    List<Long> selectMenuListByRoleId(Long roleId);
 }

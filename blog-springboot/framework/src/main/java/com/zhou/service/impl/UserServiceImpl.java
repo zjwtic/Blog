@@ -1,20 +1,34 @@
 package com.zhou.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zhou.constants.SystemCanstants;
 import com.zhou.domain.ResponseResult;
+import com.zhou.domain.entity.Role;
 import com.zhou.domain.entity.User;
+import com.zhou.domain.entity.UserRole;
+import com.zhou.domain.vo.PageVO;
 import com.zhou.domain.vo.UserInfoVo;
+import com.zhou.domain.vo.UserShowVO;
+import com.zhou.domain.vo.UserVo;
 import com.zhou.enums.AppHttpCodeEnum;
 import com.zhou.exception.SystemException;
 import com.zhou.mapper.UserMapper;
+import com.zhou.service.RoleService;
+import com.zhou.service.UserRoleService;
 import com.zhou.service.UserService;
 import com.zhou.utils.BeanCopyUtils;
 import com.zhou.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户表(SysUser)表服务实现类
@@ -52,7 +66,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     //解密和加密用的这套算法。我们在huanf-blog工程的securityConfig类里面覆盖过PasswordEncoder这个bean
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserRoleService userRoleService;
 
+    @Autowired
+    private RoleService roleService;
     @Override
     //用户注册功能的具体代码
     public ResponseResult register(User user) {
@@ -107,6 +125,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return ResponseResult.okResult();
     }
 
+
+
     //'判断用户传给我们的用户名是否在数据库已经存在' 的方法
     private boolean userNameExist(String userName) {
         //要知道是否存在，首先就是根据条件去数据库查
@@ -142,5 +162,97 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         boolean result = count(queryWrapper) > 0;
         //为true就说明已存在
         return result;
+
+    }
+    //--------------------------------查询用户列表-------------------------------------
+
+    @Override
+    public ResponseResult selectUserPage(User user, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper();
+
+        queryWrapper.like(StringUtils.hasText(user.getUserName()),User::getUserName,user.getUserName());
+        queryWrapper.eq(StringUtils.hasText(user.getStatus()),User::getStatus,user.getStatus());
+        queryWrapper.eq(StringUtils.hasText(user.getPhonenumber()),User::getPhonenumber,user.getPhonenumber());
+
+        Page<User> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page,queryWrapper);
+
+        //转换成VO
+        List<User> users = page.getRecords();
+//        List<UserVo> userVoList = users.stream()
+//                .map(u -> BeanCopyUtils.copyBean(u, UserVo.class))
+//                .collect(Collectors.toList());
+        List<UserVo> userVoList = BeanCopyUtils.copyBeanList(users, UserVo.class);
+        PageVO pageVo = new PageVO();
+        pageVo.setTotal(page.getTotal());
+        pageVo.setRows(userVoList);
+        return ResponseResult.okResult(pageVo);
+    }
+
+
+    //-------------------------------新增用户-②新增用户--------------------------------
+
+
+
+    @Override
+    public boolean checkUserNameUnique(String userName) {
+        return count(Wrappers.<User>lambdaQuery().eq(User::getUserName,userName))==0;
+    }
+
+    @Override
+    public boolean checkPhoneUnique(User user) {
+        return count(Wrappers.<User>lambdaQuery().eq(User::getPhonenumber,user.getPhonenumber()))==0;
+    }
+
+    @Override
+    public boolean checkEmailUnique(User user) {
+        return count(Wrappers.<User>lambdaQuery().eq(User::getEmail,user.getEmail()))==0;
+    }
+
+    @Override
+    @Transactional
+    public ResponseResult addUser(User user) {
+        //密码加密处理
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        save(user);
+
+        if(user.getRoleIds()!=null&&user.getRoleIds().size()>0){
+            insertUserRole(user);
+        }
+        return ResponseResult.okResult();
+    }
+    private void insertUserRole(User user) {
+        List<UserRole> sysUserRoles =user.getRoleIds().stream()
+                .map(roleId -> new UserRole(user.getId(), roleId)).collect(Collectors.toList());
+        userRoleService.saveBatch(sysUserRoles);
+    }
+    @Override
+    public ResponseResult getusersbyid(Long id) {
+        List<UserRole> userRoles = userRoleService.list(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUserId, id));
+        List<Long> roleids = userRoles.stream()
+                .map(userRole -> userRole.getRoleId())
+                .collect(Collectors.toList());
+        List<Role> roles = roleService.list(Wrappers.<Role>lambdaQuery().eq(Role::getStatus, SystemCanstants.ROLE_STATUS));
+        User u = getById(id);
+        final UserVo user = BeanCopyUtils.copyBean(u, UserVo.class);
+        UserShowVO userShowVO=new UserShowVO(roleids,roles,user);
+        return ResponseResult.okResult(userShowVO);
+    }
+
+    @Override
+    @Transactional
+    public ResponseResult updateUser(User user) {
+        updateUserInfo(user);
+        userRoleService.remove(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUserId,user.getId()));
+
+        List<UserRole> userRoles = user.getRoleIds()
+                .stream()
+                .map(r -> new UserRole(user.getId(), r))
+                .collect(Collectors.toList());
+      userRoleService.saveBatch(userRoles);
+
+        return ResponseResult.okResult();
     }
 }

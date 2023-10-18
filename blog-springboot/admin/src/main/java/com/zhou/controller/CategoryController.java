@@ -4,6 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Category;
 import com.zhou.domain.vo.ExcelCategoryVo;
+import com.zhou.domain.vo.PageVO;
 import com.zhou.enums.AppHttpCodeEnum;
 import com.zhou.service.CategoryService;
 import com.zhou.domain.vo.CategoryVo;
@@ -59,5 +60,13 @@ public class CategoryController {
             //WebUtils是我们在huanf-framework工程写的类，里面的renderString方法是将json字符串写入到请求体，然后返回给前端
             WebUtils.renderString(response, JSON.toJSONString(result));
         }
+    }
+
+    //----------------------------分页查询分类列表-------------------------------------
+
+    @GetMapping("/list")
+    public ResponseResult list(Category category, Integer pageNum, Integer pageSize) {
+        PageVO pageVo = categoryService.selectCategoryPage(category,pageNum,pageSize);
+        return ResponseResult.okResult(pageVo);
     }
 }

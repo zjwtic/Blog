@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhou.constants.SystemCanstants;
 import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Menu;
+import com.zhou.domain.vo.MenuTreeVo;
 import com.zhou.domain.vo.UpdateArticleVO;
 import com.zhou.domain.vo.UpdateMenuVO;
 import com.zhou.mapper.MenuMapper;
@@ -131,4 +132,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         removeById(id);
         return ResponseResult.okResult();
     }
+
+    //--------------------------修改角色-根据角色id查询对应角色菜单列表树---------------------
+
+    @Override
+    public List<Long> selectMenuListByRoleId(Long roleId) {
+        return getBaseMapper().selectMenuListByRoleId(roleId);
+    }
+
 }

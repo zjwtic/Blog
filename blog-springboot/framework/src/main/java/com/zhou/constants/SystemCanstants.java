@@ -71,6 +71,10 @@ public class SystemCanstants {
      * 判断为管理员用户
      */
     public static final String IS_ADMAIN = "1";
+    /**
+     * 判断为角色状态
+     */
+    public static final String ROLE_STATUS = "0";
 
     
 }

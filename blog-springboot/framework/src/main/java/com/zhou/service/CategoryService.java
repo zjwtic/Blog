@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Category;
 import com.zhou.domain.vo.CategoryVo;
+import com.zhou.domain.vo.PageVO;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public interface CategoryService extends IService<Category> {
 
     //写博客-查询文章分类的接口
     List<CategoryVo> listAllCategory();
+
+    //分页查询分类列表
+  PageVO selectCategoryPage(Category category, Integer pageNum, Integer pageSize);
 }

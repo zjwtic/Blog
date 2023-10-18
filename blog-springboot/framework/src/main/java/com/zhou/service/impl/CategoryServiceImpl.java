@@ -1,12 +1,14 @@
 package com.zhou.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhou.constants.SystemCanstants;
 import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Article;
 import com.zhou.domain.entity.Category;
 import com.zhou.domain.vo.CategoryVo;
+import com.zhou.domain.vo.PageVO;
 import com.zhou.mapper.CategoryMapper;
 import com.zhou.service.ArticleService;
 import com.zhou.service.CategoryService;
@@ -14,8 +16,10 @@ import com.zhou.utils.BeanCopyUtils;
 import com.zhou.domain.vo.HotCategoryVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -61,4 +65,26 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return categoryVos;
     }
 
+    //----------------------------------分页查询分类列表------------------------------------------
+
+    @Override
+    public PageVO selectCategoryPage(Category category, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper();
+
+        queryWrapper.like(StringUtils.hasText(category.getName()),Category::getName, category.getName());
+        queryWrapper.eq(Objects.nonNull(category.getStatus()),Category::getStatus, category.getStatus());
+
+        Page<Category> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page,queryWrapper);
+
+        //转换成VO
+        List<Category> categories = page.getRecords();
+
+        PageVO pageVo = new PageVO();
+        pageVo.setTotal(page.getTotal());
+        pageVo.setRows(categories);
+        return pageVo;
+    }
 }
