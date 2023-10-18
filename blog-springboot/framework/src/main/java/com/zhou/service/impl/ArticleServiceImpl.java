@@ -1,29 +1,26 @@
 package com.zhou.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhou.constants.SystemCanstants;
 import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Article;
 import com.zhou.domain.entity.ArticleTag;
-import com.zhou.domain.entity.ArticleVo;
+import com.zhou.domain.entity.Tag;
+import com.zhou.domain.vo.*;
 import com.zhou.domain.entity.Category;
-import com.zhou.domain.vo.ArticleDetailVO;
-import com.zhou.domain.vo.PageVO;
-import com.zhou.domain.vo.ShowArticleVO;
 import com.zhou.dto.AddArticleDto;
+import com.zhou.enums.AppHttpCodeEnum;
+import com.zhou.exception.SystemException;
 import com.zhou.mapper.ArticleMapper;
-import com.zhou.service.ArticleService;
-import com.zhou.service.ArticleTagService;
-import com.zhou.service.ArticleVoService;
-import com.zhou.service.CategoryService;
+import com.zhou.service.*;
 import com.zhou.utils.BeanCopyUtils;
-import com.zhou.domain.vo.HotArticleVO;
 import com.zhou.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -43,6 +40,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private ArticleTagService articleTagService;
+    @Autowired
+    private TagService tagService;
+
+
 
  @Autowired
  private RedisCache redisCache;
@@ -162,6 +163,67 @@ ArticleVo articlevo=BeanCopyUtils.copyBean(articleDto, ArticleVo.class);
         List<ArticleTag> articleTags = articleDto.getTags()
                 .stream()
                 .map(tag -> new ArticleTag(articlevo.getId(), tag))
+                .collect(Collectors.toList());
+
+        articleTagService.saveBatch(articleTags);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult pagelist(Article article, Integer pageNum, Integer pageSize) {
+    LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
+    queryWrapper.eq(StringUtils.hasText(article.getSummary()),Article::getSummary,article.getSummary());
+    queryWrapper.eq(StringUtils.hasText(article.getTitle()),Article::getTitle,article.getTitle());
+    Page<Article> page=new Page<>(pageNum,pageSize);
+    page(page,queryWrapper);
+    PageVO pageVO=new PageVO();
+    pageVO.setRows(page.getRecords());
+    pageVO.setTotal(page.getTotal());
+    return ResponseResult.okResult(pageVO);
+    }
+
+    @Override
+    public ResponseResult getNeedUpdateById(Long id) {
+        // 先通过id 得到  对应的文章内容
+        Article article = getById(id);
+        if(article==null){
+            throw new SystemException(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
+        UpdateArticleVO updateArticleVO = BeanCopyUtils.copyBean(article, UpdateArticleVO.class);
+//通过articleid 找到 其所拥有的 的tag id
+        LambdaQueryWrapper<ArticleTag>queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(ArticleTag::getArticleId,updateArticleVO.getId());
+
+        List<ArticleTag> articleTags = articleTagService.list(queryWrapper);
+        List<Long> tagidlist = articleTags.stream()
+                .map(articleTag -> articleTag.getTagId())
+                .collect(Collectors.toList());
+
+
+//        List<Tag> tags = tagService.listByIds(tagidlist);
+//        List<String> tagnamelist = tags.stream()
+//                .map(tag -> tag.getName())
+//                .collect(Collectors.toList());
+
+//-------------------------------------
+        updateArticleVO.setTags(tagidlist);
+
+        return  ResponseResult.okResult(updateArticleVO);
+    }
+
+    @Transactional
+    @Override
+    public ResponseResult updatebymessage(UpdateArticleVO updateArticleVO) {
+        Article article=BeanCopyUtils.copyBean(updateArticleVO, Article.class);
+       updateById(article);
+        //删除原有的 标签和博客的关联
+        LambdaQueryWrapper<ArticleTag> articleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        articleTagLambdaQueryWrapper.eq(ArticleTag::getArticleId,article.getId());
+        articleTagService.remove(articleTagLambdaQueryWrapper);
+        //添加新的博客和标签的关联信息
+        List<ArticleTag> articleTags = updateArticleVO.getTags()
+                .stream()
+                .map(tag -> new ArticleTag(article.getId(), tag))
                 .collect(Collectors.toList());
 
         articleTagService.saveBatch(articleTags);

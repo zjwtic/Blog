@@ -1,4 +1,4 @@
-package com.zhou.domain.entity;
+package com.zhou.domain.vo;
 
 import java.util.Date;
 

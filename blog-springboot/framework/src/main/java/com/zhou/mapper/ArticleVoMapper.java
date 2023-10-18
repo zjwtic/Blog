@@ -1,7 +1,7 @@
 package com.zhou.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zhou.domain.entity.ArticleVo;
+import com.zhou.domain.vo.ArticleVo;
 import org.springframework.stereotype.Service;
 
 /**

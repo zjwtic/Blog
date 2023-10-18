@@ -1,8 +1,7 @@
 package com.zhou.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zhou.domain.entity.ArticleVo;
-import org.springframework.stereotype.Service;
+import com.zhou.domain.vo.ArticleVo;
 
 /**
  * @author 35238

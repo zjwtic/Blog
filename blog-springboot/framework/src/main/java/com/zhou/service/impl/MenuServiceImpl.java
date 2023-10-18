@@ -3,10 +3,15 @@ package com.zhou.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhou.constants.SystemCanstants;
+import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Menu;
+import com.zhou.domain.vo.UpdateArticleVO;
+import com.zhou.domain.vo.UpdateMenuVO;
 import com.zhou.mapper.MenuMapper;
 import com.zhou.service.MenuService;
+import com.zhou.utils.BeanCopyUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,6 +70,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return menuTree;
     }
 
+
+
     //用于把List集合里面的数据构建成tree，也就是子父菜单树，有层级关系
     private List<Menu> xxbuildMenuTree(List<Menu> menus, long parentId){
         List<Menu> menuTree = menus.stream()
@@ -85,5 +92,43 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                 .map(m -> m.setChildren(xxgetChildren(m,menus)))
                 .collect(Collectors.toList());
         return childrenList;
+    }
+
+    @Override
+    public List<Menu> selectMenuList(Menu menu) {
+
+        LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
+        //menuName模糊查询
+        queryWrapper.like(StringUtils.hasText(menu.getMenuName()),Menu::getMenuName,menu.getMenuName());
+        queryWrapper.eq(StringUtils.hasText(menu.getStatus()),Menu::getStatus,menu.getStatus());
+        //排序 parent_id和order_num
+        queryWrapper.orderByAsc(Menu::getParentId,Menu::getOrderNum);
+        List<Menu> menus = list(queryWrapper);
+        return menus;
+    }
+
+    @Override
+    public ResponseResult getNeedUpdateById(Long id) {
+        Menu menu = getById(id);
+        UpdateMenuVO updateMenuVO = BeanCopyUtils.copyBean(menu, UpdateMenuVO.class);
+        return ResponseResult.okResult(updateMenuVO);
+    }
+
+    @Override
+    public ResponseResult updatebymessage(Menu menu) {
+        updateById(menu);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult removerootid(Long id) {
+        LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Menu::getParentId,id);
+        int count = count(queryWrapper);
+        if(count>0){
+            return ResponseResult.errorResult(500,"存在子菜单不允许删除");
+        }
+        removeById(id);
+        return ResponseResult.okResult();
     }
 }

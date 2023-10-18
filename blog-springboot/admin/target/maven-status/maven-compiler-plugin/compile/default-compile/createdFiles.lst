@@ -1,3 +1,4 @@
+com\zhou\controller\MenuController.class
 com\zhou\config\SecurityConfig.class
 com\zhou\controller\UploadController.class
 com\zhou\BlogAdminApplication.class

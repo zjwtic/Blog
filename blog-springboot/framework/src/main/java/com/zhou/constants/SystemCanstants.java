@@ -71,5 +71,6 @@ public class SystemCanstants {
      * 判断为管理员用户
      */
     public static final String IS_ADMAIN = "1";
+
     
 }
