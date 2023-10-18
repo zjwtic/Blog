@@ -78,6 +78,7 @@ com\zhou\dto\AddTagDto.class
 com\zhou\service\impl\RoleServiceImpl.class
 com\zhou\service\impl\ArticleTagServiceImpl.class
 com\zhou\config\FastJsonRedisSerializer.class
+com\zhou\dto\CategoryDto.class
 com\zhou\mapper\ArticleVoMapper.class
 com\zhou\service\impl\ArticleVoServiceImpl.class
 com\zhou\domain\ResponseResult.class

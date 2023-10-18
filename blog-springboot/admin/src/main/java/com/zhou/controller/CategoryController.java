@@ -5,6 +5,7 @@ import com.zhou.domain.ResponseResult;
 import com.zhou.domain.entity.Category;
 import com.zhou.domain.vo.ExcelCategoryVo;
 import com.zhou.domain.vo.PageVO;
+import com.zhou.dto.CategoryDto;
 import com.zhou.enums.AppHttpCodeEnum;
 import com.zhou.service.CategoryService;
 import com.zhou.domain.vo.CategoryVo;
@@ -12,9 +13,7 @@ import com.zhou.utils.BeanCopyUtils;
 import com.zhou.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.alibaba.fastjson.JSON;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -68,5 +67,36 @@ public class CategoryController {
     public ResponseResult list(Category category, Integer pageNum, Integer pageSize) {
         PageVO pageVo = categoryService.selectCategoryPage(category,pageNum,pageSize);
         return ResponseResult.okResult(pageVo);
+    }
+
+    //-----------------------------增加文章的分类--------------------------------------
+
+    @PostMapping
+    public ResponseResult add(@RequestBody CategoryDto categoryDto){
+        Category category = BeanCopyUtils.copyBean(categoryDto, Category.class);
+        categoryService.save(category);
+        return ResponseResult.okResult();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseResult delete(@PathVariable Long id){
+        categoryService.removeById(id);
+        return ResponseResult.okResult();
+    }
+
+    //-----------------------------修改文章的分类--------------------------------------
+
+    @GetMapping(value = "/{id}")
+    //①根据分类的id来查询分类
+    public ResponseResult getInfo(@PathVariable(value = "id")Long id){
+        Category category = categoryService.getById(id);
+        return ResponseResult.okResult(category);
+    }
+
+    @PutMapping
+    //②根据分类的id来修改分类
+    public ResponseResult edit(@RequestBody Category category){
+        categoryService.updateById(category);
+        return ResponseResult.okResult();
     }
 }
